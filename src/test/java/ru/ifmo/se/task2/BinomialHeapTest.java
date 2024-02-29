@@ -12,23 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class BinomialHeapTest {
     private BinomialHeap binomialHeap;
 
-    @Test
-    void name() {
-        BinomialHeap binHeap = new BinomialHeap();
-
-        binHeap.insert(12);
-        binHeap.insert(8);
-        binHeap.insert(5);
-        binHeap.insert(15);
-        binHeap.insert(7);
-        binHeap.insert(2);
-        binHeap.insert(9);
-
-        System.out.println("Size of the binomial heap is "
-                + binHeap.getSize());
-        assertEquals(7, binHeap.getSize());
-    }
-
     @BeforeEach
     public void setUp() {
         binomialHeap = new BinomialHeap();
@@ -112,66 +95,106 @@ class BinomialHeapTest {
         binomialHeap.insert(20);
         binomialHeap.insert(10);
 
-        binomialHeap.makeEmpty();
+        binomialHeap.clear();
 
         assertTrue(binomialHeap.isEmpty());
         assertEquals(0, binomialHeap.getSize());
     }
-//
-//    @Test
-//    @DisplayName("Test unionNodes with equal degree and temp1.sibling.degree < temp2.degree")
-//    public void testMergeEqualDegreeWithTemp1Sibling() {
-//        BinomialHeap binHeap1 = new BinomialHeap();
-//        binHeap1.insert(5);
-//        binHeap1.insert(10);
-//
-//        BinomialHeap binHeap2 = new BinomialHeap();
-//        binHeap2.insert(8);
-//        binHeap2.insert(15);
-//
-//        binHeap1.unionNodes(binHeap2.getRoot()); // Assuming you have a method to get the root of binHeap
-//
-//        assertEquals(4, binHeap1.getSize());
-//        assertEquals(5, binHeap1.findMinimum());
-//    }
-//
-//    @Test
-//    @DisplayName("Test unionNodes with temp1.sibling == null")
-//    public void testMergeWithTemp1SiblingNull() {
-//        BinomialHeap binHeap1 = new BinomialHeap();
-//        binHeap1.insert(5);
-//        binHeap1.insert(10);
-//
-//        BinomialHeap binHeap2 = new BinomialHeap();
-//        binHeap2.insert(8);
-//        binHeap2.insert(15);
-//
-////        binHeap1.getRoot().sibling = null; // Set temp1.sibling to null
-//
-//        binHeap1.unionNodes(binHeap2.getRoot());
-//        binHeap1.displayHeap();
-//        assertEquals(4, binHeap1.getSize());
-//        assertEquals(5, binHeap1.findMinimum());
-//    }
-//
-//    @Test
-//    @DisplayName("Test unionNodes with temp1.sibling.degree > temp2.degree")
-//    public void testMergeWithTemp1SiblingDegreeGreaterThanTemp2Degree() {
-//        BinomialHeap binHeap1 = new BinomialHeap();
-//        binHeap1.insert(5);
-//        binHeap1.insert(10);
-//
-//        BinomialHeap binHeap2 = new BinomialHeap();
-//        binHeap2.insert(8);
-//        binHeap2.insert(15);
-//
-//        // Setting temp1.sibling.degree > temp2.degree
-//        binHeap1.getRoot().sibling.degree = 3;
-//
-//        binHeap1.unionNodes(binHeap2.getRoot());
-//
-//        assertEquals(4, binHeap1.getSize());
-//        assertEquals(5, binHeap1.findMinimum());
-//    }
 
+    @Test
+    void testMerge() {
+        BinomialHeap binHeap1 = new BinomialHeap();
+        binHeap1.insert(5);
+        binHeap1.insert(10);
+        binHeap1.insert(1);
+        binHeap1.insert(3);
+        binHeap1.insert(10);
+
+        BinomialHeap binHeap2 = new BinomialHeap();
+        binHeap2.insert(2);
+        binHeap2.insert(15);
+        binHeap2.insert(15);
+        binHeap2.insert(2);
+
+        binHeap2.merge(binHeap1);
+        assertEquals(binHeap2.getSize(), 9);
+    }
+
+    @Test
+    void testGetSizeOnSingleNode() {
+        assertEquals(binomialHeap.getSize(), 0);
+    }
+
+    @Test
+    void testGetSizeOnWithSibling() {
+        binomialHeap.insert(2);
+        binomialHeap.insert(3);
+        binomialHeap.insert(1);
+        assertEquals(binomialHeap.getSize(), 3);
+    }
+
+    @Test
+    void testExtractMinOnEmptyHeap() {
+        assertEquals(-1, binomialHeap.extractMin());
+    }
+
+    @Test
+    void testDecreaseKeyEmptyHeap() {
+        assertFalse(binomialHeap.decreaseKeyValue(1, 2));
+    }
+
+    @Test
+    void testDecreaseKeyNotExists() {
+        binomialHeap.insert(2);
+        assertFalse(binomialHeap.decreaseKeyValue(1, 2));
+    }
+
+    @Test
+    void test1() {
+        BinomialHeap binHeap1 = new BinomialHeap();
+        binHeap1.insert(5);
+
+        BinomialHeap binHeap2 = new BinomialHeap();
+        binHeap2.insert(2);
+        binHeap2.insert(15);
+        binHeap2.insert(11);
+        binHeap2.insert(16);
+
+        binHeap1.merge(binHeap2);
+    }
+
+    @Test
+    void test2() {
+        BinomialHeap binHeap1 = new BinomialHeap();
+        binHeap1.insert(5);
+        binHeap1.insert(2);
+        binHeap1.insert(1);
+
+        BinomialHeap binHeap2 = new BinomialHeap();
+        binHeap2.insert(4);
+        binHeap2.insert(3);
+        binHeap2.insert(2);
+        binHeap2.insert(1);
+
+        binHeap1.merge(binHeap2);
+    }
+
+    @Test
+    void testDecreaseKeyValueOnRootSibling() {
+        binomialHeap.insert(6);
+        binomialHeap.insert(3);
+        binomialHeap.insert(5);
+        binomialHeap.insert(4);
+        binomialHeap.decreaseKeyValue(6, 1);
+        assertEquals(binomialHeap.findMinimum(), 1);
+    }
+
+    @Test
+    void testExtractMinOnRootSibling() {
+        binomialHeap.insert(6);
+        binomialHeap.insert(3);
+        binomialHeap.insert(5);
+        binomialHeap.insert(4);
+        assertEquals(binomialHeap.extractMin(), 3);
+    }
 }

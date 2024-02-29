@@ -4,7 +4,7 @@ package ru.ifmo.se.task1;
  * @author amifideles
  */
 public class Sin {
-    public static double calc(double x, int n) {
+    public double calc(double x, int n) {
         if (Double.isInfinite(x) || Double.isNaN(x))
             throw new IllegalArgumentException("Argument can't be infinite or null!");
 

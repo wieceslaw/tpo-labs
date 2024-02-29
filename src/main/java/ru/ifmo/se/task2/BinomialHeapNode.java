@@ -4,16 +4,12 @@ package ru.ifmo.se.task2;
  * @author amifideles
  */
 public class BinomialHeapNode {
-
     int key, degree;
     BinomialHeapNode parent;
     BinomialHeapNode sibling;
     BinomialHeapNode child;
 
-    // Constructor of this class
-    public BinomialHeapNode(int k)
-    {
-
+    public BinomialHeapNode(int k) {
         key = k;
         degree = 0;
         parent = null;
@@ -21,74 +17,59 @@ public class BinomialHeapNode {
         child = null;
     }
 
-    // Method 1
-    // To reverse
-    public BinomialHeapNode reverse(BinomialHeapNode sibl)
-    {
+    public BinomialHeapNode reverse(BinomialHeapNode sib) {
         BinomialHeapNode ret;
-        if (sibling != null)
+        if (sibling != null) {
             ret = sibling.reverse(this);
-        else
+        } else {
             ret = this;
-        sibling = sibl;
+        }
+        sibling = sib;
         return ret;
     }
 
-    // Method 2
-    // To find minimum node
-    public BinomialHeapNode findMinNode()
-    {
-
-        // this keyword refers to current instance itself
+    public BinomialHeapNode findMinNode() {
         BinomialHeapNode x = this, y = this;
         int min = x.key;
-
         while (x != null) {
             if (x.key < min) {
                 y = x;
                 min = x.key;
             }
-
             x = x.sibling;
         }
-
         return y;
     }
 
-    // Method 3
-    // To find node with key value
-    public BinomialHeapNode findANodeWithKey(int value)
-    {
-
+    public BinomialHeapNode findANodeWithKey(int value) {
         BinomialHeapNode temp = this, node = null;
-
         while (temp != null) {
             if (temp.key == value) {
                 node = temp;
                 break;
             }
-
-            if (temp.child == null)
+            if (temp.child == null) {
                 temp = temp.sibling;
-
-            else {
+            } else {
                 node = temp.child.findANodeWithKey(value);
-                if (node == null)
+                if (node == null) {
                     temp = temp.sibling;
-                else
+                } else {
                     break;
+                }
             }
         }
-
         return node;
     }
 
-    // Method 4
-    // To get the size
-    public int getSize()
-    {
-        return (
-                1 + ((child == null) ? 0 : child.getSize())
-                        + ((sibling == null) ? 0 : sibling.getSize()));
+    public int getSize() {
+        int result = 1;
+        if (child != null) {
+            result += child.getSize();
+        }
+        if (sibling != null) {
+            result += sibling.getSize();
+        }
+        return result;
     }
 }

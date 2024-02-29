@@ -4,72 +4,54 @@ package ru.ifmo.se.task2;
  * @author amifideles
  */
 public class BinomialHeap {
-    // Member variables of this class
-    private BinomialHeapNode Nodes;
-    private int size;
+    private BinomialHeapNode nodes;
 
-    // Constructor of this class
     public BinomialHeap() {
-        Nodes = null;
-        size = 0;
+        nodes = null;
     }
 
-    // Checking if heap is empty
-    public boolean isEmpty() {
-        return Nodes == null;
-    }
-
-    // Method 1
-    // To get the size
     public int getSize() {
-        return size;
+        if (nodes == null) {
+            return 0;
+        }
+        return nodes.getSize();
     }
 
-    // Method 2
-    // Clear heap
-    public void makeEmpty() {
-        Nodes = null;
-        size = 0;
+    public boolean isEmpty() {
+        return nodes == null;
     }
 
-    // Method 3
-    // To insert
+    public void clear() {
+        nodes = null;
+    }
+
     public void insert(int value) {
-
         if (value > 0) {
-            BinomialHeapNode temp
-                    = new BinomialHeapNode(value);
-            if (Nodes == null) {
-                Nodes = temp;
-                size = 1;
+            BinomialHeapNode temp = new BinomialHeapNode(value);
+            if (nodes == null) {
+                nodes = temp;
             } else {
                 unionNodes(temp);
-                size++;
             }
         }
     }
 
-    // Method 4
-    // To unite two binomial heaps
-    private void merge(BinomialHeapNode binHeap) {
-        BinomialHeapNode temp1 = Nodes, temp2 = binHeap;
+    public void merge(BinomialHeap heap) {
+        unionNodes(heap.nodes);
+    }
 
+    private void mergeNode(BinomialHeapNode binHeap) {
+        BinomialHeapNode temp1 = nodes, temp2 = binHeap;
         while ((temp1 != null) && (temp2 != null)) {
-
             if (temp1.degree == temp2.degree) {
-
                 BinomialHeapNode tmp = temp2;
                 temp2 = temp2.sibling;
                 tmp.sibling = temp1.sibling;
                 temp1.sibling = tmp;
                 temp1 = tmp.sibling;
             } else {
-
                 if (temp1.degree < temp2.degree) {
-
-                    if ((temp1.sibling == null)
-                            || (temp1.sibling.degree
-                            > temp2.degree)) {
+                    if ((temp1.sibling == null) || (temp1.sibling.degree > temp2.degree)) {
                         BinomialHeapNode tmp = temp2;
                         temp2 = temp2.sibling;
                         tmp.sibling = temp1.sibling;
@@ -83,44 +65,30 @@ public class BinomialHeap {
                     temp1 = temp2;
                     temp2 = temp2.sibling;
                     temp1.sibling = tmp;
-
-                    if (tmp == Nodes) {
-                        Nodes = temp1;
-                    } else {
+                    if (tmp == nodes) {
+                        nodes = temp1;
                     }
                 }
             }
         }
-
         if (temp1 == null) {
-            temp1 = Nodes;
-
+            temp1 = nodes;
             while (temp1.sibling != null) {
                 temp1 = temp1.sibling;
             }
             temp1.sibling = temp2;
-        } else {
         }
     }
 
-    // Method 5
-    // For union of nodes
     private void unionNodes(BinomialHeapNode binHeap) {
-        merge(binHeap);
-
-        BinomialHeapNode prevTemp = null, temp = Nodes,
-                nextTemp = Nodes.sibling;
-
+        mergeNode(binHeap);
+        BinomialHeapNode prevTemp = null, temp = nodes, nextTemp = nodes.sibling;
         while (nextTemp != null) {
-
-            if ((temp.degree != nextTemp.degree)
-                    || ((nextTemp.sibling != null)
-                    && (nextTemp.sibling.degree
-                    == temp.degree))) {
+            if ((temp.degree != nextTemp.degree) ||
+                    ((nextTemp.sibling != null) && (nextTemp.sibling.degree == temp.degree))) {
                 prevTemp = temp;
                 temp = nextTemp;
             } else {
-
                 if (temp.key <= nextTemp.key) {
                     temp.sibling = nextTemp.sibling;
                     nextTemp.parent = temp;
@@ -128,13 +96,11 @@ public class BinomialHeap {
                     temp.child = nextTemp;
                     temp.degree++;
                 } else {
-
                     if (prevTemp == null) {
-                        Nodes = nextTemp;
+                        nodes = nextTemp;
                     } else {
                         prevTemp.sibling = nextTemp;
                     }
-
                     temp.parent = nextTemp;
                     temp.sibling = nextTemp.child;
                     nextTemp.child = temp;
@@ -146,53 +112,44 @@ public class BinomialHeap {
         }
     }
 
-    // Method 6
-    // To return minimum key
     public int findMinimum() {
-        return Nodes.findMinNode().key;
+        return nodes.findMinNode().key;
     }
 
-    // Method 7
-    // To delete a particular element */
     public void delete(int value) {
-
-        if ((Nodes != null)
-                && (Nodes.findANodeWithKey(value) != null)) {
+        if ((nodes != null) && (nodes.findANodeWithKey(value) != null)) {
             decreaseKeyValue(value, findMinimum() - 1);
             extractMin();
         }
     }
 
-    // Method 8
-    // To decrease key with a given value */
-    public void decreaseKeyValue(int old_value,
-                                 int new_value) {
-        BinomialHeapNode temp
-                = Nodes.findANodeWithKey(old_value);
-        if (temp == null)
-            return;
-        temp.key = new_value;
+    public boolean decreaseKeyValue(int oldValue, int newValue) {
+        if (nodes == null) {
+            return false;
+        }
+        BinomialHeapNode temp = nodes.findANodeWithKey(oldValue);
+        if (temp == null) {
+            return false;
+        }
+        temp.key = newValue;
         BinomialHeapNode tempParent = temp.parent;
-
-        while ((tempParent != null)
-                && (temp.key < tempParent.key)) {
+        while ((tempParent != null) && (temp.key < tempParent.key)) {
             int z = temp.key;
             temp.key = tempParent.key;
             tempParent.key = z;
-
             temp = tempParent;
             tempParent = tempParent.parent;
         }
+        return true;
     }
 
-    // Method 9
-    // To extract the node with the minimum key
-    public int  extractMin() {
-        if (Nodes == null)
+    public int extractMin() {
+        if (nodes == null) {
             return -1;
+        }
 
-        BinomialHeapNode temp = Nodes, prevTemp = null;
-        BinomialHeapNode minNode = Nodes.findMinNode();
+        BinomialHeapNode temp = nodes, prevTemp = null;
+        BinomialHeapNode minNode = nodes.findMinNode();
 
         while (temp.key != minNode.key) {
             prevTemp = temp;
@@ -200,7 +157,7 @@ public class BinomialHeap {
         }
 
         if (prevTemp == null) {
-            Nodes = temp.sibling;
+            nodes = temp.sibling;
         } else {
             prevTemp.sibling = temp.sibling;
         }
@@ -213,43 +170,13 @@ public class BinomialHeap {
             temp = temp.sibling;
         }
 
-        if ((Nodes == null) && (fakeNode == null)) {
-            size = 0;
-        } else {
-            if ((Nodes == null) && (fakeNode != null)) {
-                Nodes = fakeNode.reverse(null);
-                size = Nodes.getSize();
-            } else {
-                if ((Nodes != null) && (fakeNode == null)) {
-                    size = Nodes.getSize();
-                } else {
-                    unionNodes(fakeNode.reverse(null));
-                    size = Nodes.getSize();
-                }
+        if ((nodes != null) || (fakeNode != null)) {
+            if (nodes == null) {
+                nodes = fakeNode.reverse(null);
+            } else if (fakeNode != null) {
+                unionNodes(fakeNode.reverse(null));
             }
         }
-
         return minNode.key;
     }
-
-    // Method 10
-    // To display heap
-    public void displayHeap() {
-        System.out.print("\nHeap : ");
-        displayHeap(Nodes);
-        System.out.println("\n");
-    }
-
-    private void displayHeap(BinomialHeapNode r) {
-        if (r != null) {
-            displayHeap(r.child);
-            System.out.print(r.key + " ");
-            displayHeap(r.sibling);
-        }
-    }
-
-    public BinomialHeapNode getRoot() {
-        return Nodes;
-    }
-
 }
