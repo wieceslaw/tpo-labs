@@ -1,5 +1,6 @@
 ![img.png](img/img.png)
 
+https://www.cs.usfca.edu/~galles/visualization/BinomialQueue.html
 https://se.ifmo.ru/~nnaumova/
 
 ТПО
