@@ -25,8 +25,4 @@ public class Relationship {
     public RelationshipType getType() {
         return type;
     }
-
-    public void setType(RelationshipType type) {
-        this.type = type;
-    }
 }

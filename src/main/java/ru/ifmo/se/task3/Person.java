@@ -18,6 +18,12 @@ public class Person {
     private boolean alive;
 
     public Person(String name, Sex gender) {
+        if (name == null){
+            throw new IllegalArgumentException("Name cannot be null");
+        }
+        if (gender == null){
+            throw new IllegalArgumentException("Gender cannot be null");
+        }
         this.name = name;
         this.gender = gender;
         this.mood = Mood.NORMAL;
@@ -26,6 +32,9 @@ public class Person {
     }
 
     public void move(Location newLocation) throws NoAvailableSeatsException {
+        if (newLocation == null){
+            throw new IllegalArgumentException("Location cannot be null");
+        }
         if (newLocation.occupySeat()) {
             if (currentLocation != null) {
                 currentLocation.freeSeat(); // Освобождаем место в текущей локации
@@ -37,6 +46,12 @@ public class Person {
     }
 
     public void createRelationship(Person otherPerson, RelationshipType type) {
+        if (this == otherPerson){
+            throw new IllegalArgumentException("There can be no connection between a person and himself");
+        }
+        if (type == null){
+            throw new IllegalArgumentException("RelationshipType cannot be null");
+        }
         Relationship relationship = new Relationship(this, otherPerson, type);
         relationships.add(relationship);
 
@@ -44,20 +59,24 @@ public class Person {
         otherPerson.relationships.add(new Relationship(otherPerson, this, type));
     }
 
-    public void breakRelationship(Person otherPerson) {
-        if (relationships.removeIf(relationship -> relationship.getPerson2() == otherPerson)) {
-            // Удалим взаимные отношения
+    public void breakAllRelationships(Person otherPerson) {
+        boolean removed = relationships.removeIf(relationship -> relationship.getPerson2() == otherPerson);
+
+        if (removed) {
+            // Remove the relationship from the other person
             otherPerson.relationships.removeIf(relationship -> relationship.getPerson2() == this);
+        } else {
+            throw new IllegalArgumentException("No relationship with the specified person to break.");
         }
     }
 
-    public RelationshipType getRelationshipTypeWithPerson(Person otherPerson) {
+    public Relationship getRelationshipWithPerson(Person otherPerson) {
         return relationships.stream()
                 .filter(relationship -> relationship.getPerson2() == otherPerson)
-                .map(Relationship::getType)
                 .findFirst()
                 .orElse(null);
     }
+
 
     public void laugh() {
         mood = Mood.HAPPY;
@@ -95,4 +114,9 @@ public class Person {
     public boolean isAlive() {
         return alive;
     }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
+    }
+
 }

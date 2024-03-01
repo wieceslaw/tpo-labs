@@ -9,8 +9,15 @@ public class Location {
     private int noiseLevel;
     private int availableSeats;
 
-    public Location(String name) {
+    public Location(String name, int availableSeats) {
+        if (name == null){
+            throw new IllegalArgumentException("Name cannot be null");
+        }
         this.name = name;
+        if (availableSeats < 0){
+            throw new IllegalArgumentException("Number of seats cannot be negative");
+        }
+        this.availableSeats = availableSeats;
         noiseLevel = 0;
     }
 
@@ -41,5 +48,9 @@ public class Location {
 
     public String getName() {
         return name;
+    }
+
+    public int getAvailableSeats() {
+        return availableSeats;
     }
 }
