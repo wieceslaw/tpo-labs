@@ -8,6 +8,7 @@ public class Location {
     private final String name;
     private int noiseLevel;
     private int availableSeats;
+
     public Location(String name) {
         this.name = name;
         noiseLevel = 0;
@@ -41,5 +42,4 @@ public class Location {
     public String getName() {
         return name;
     }
-
 }

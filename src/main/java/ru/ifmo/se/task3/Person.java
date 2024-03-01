@@ -13,14 +13,16 @@ public class Person {
     private final Sex gender;
     private Position position;
     private Mood mood;
-    private Location currentLocation; // текущая локация
+    private Location currentLocation;
     private final List<Relationship> relationships;
+    private boolean alive;
 
     public Person(String name, Sex gender) {
         this.name = name;
         this.gender = gender;
         this.mood = Mood.NORMAL;
         this.relationships = new ArrayList<>();
+        this.alive = true;
     }
 
     public void move(Location newLocation) throws NoAvailableSeatsException {
@@ -42,7 +44,6 @@ public class Person {
         otherPerson.relationships.add(new Relationship(otherPerson, this, type));
     }
 
-    // TODO Может быть это сойдет за "испарение" ?
     public void breakRelationship(Person otherPerson) {
         if (relationships.removeIf(relationship -> relationship.getPerson2() == otherPerson)) {
             // Удалим взаимные отношения
@@ -71,6 +72,10 @@ public class Person {
         position = Position.STANDING;
     }
 
+    public void vaporize(){
+        this.alive = false;
+    }
+
     public String getName() {
         return name;
     }
@@ -85,5 +90,9 @@ public class Person {
 
     public Mood getMood() {
         return mood;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 }
