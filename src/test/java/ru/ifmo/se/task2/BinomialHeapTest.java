@@ -64,6 +64,34 @@ class BinomialHeapTest {
     }
 
     @Test
+    public void testDeleteNodeFound() {
+        BinomialHeap heap = new BinomialHeap();
+        heap.insert(5);
+        heap.insert(10);
+        assertEquals(2, heap.getSize());
+
+        heap.delete(5);
+        assertEquals(1, heap.getSize());
+        assertEquals(10, heap.findMinimum());
+    }
+
+    @Test
+    public void testDeleteNodeNotFound() {
+        BinomialHeap heap = new BinomialHeap();
+        heap.insert(5);
+        heap.insert(10);
+        assertEquals(2, heap.getSize());
+        assertThrows(IllegalArgumentException.class, () -> heap.delete(15));
+    }
+
+    @Test
+    public void testDeleteNodeFromEmptyHeap() {
+        BinomialHeap heap = new BinomialHeap();
+        assertEquals(0, heap.getSize());
+        assertThrows(IllegalArgumentException.class, () -> heap.delete(5)); // Attempting to delete from an empty heap
+    }
+
+    @Test
     @DisplayName("Test decreaseKeyValue() on a non-empty heap")
     public void testDecreaseKeyValue() {
         binomialHeap.insert(15);

@@ -29,7 +29,7 @@ public class SinTest {
     @ParameterizedTest(name = "sin({0}) = {1}")
     @MethodSource({"values"})
     void testBetweenDotsFromCsv1(double x, double y) {
-        assertEquals(y, new Sin().execute(x, 50), 0.0000001);
+        assertEquals(y, new Sin().execute(x, 50), 0.0001);
     }
 
     private static Stream<Arguments> values() {

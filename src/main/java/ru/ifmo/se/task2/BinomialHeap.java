@@ -26,13 +26,11 @@ public class BinomialHeap {
     }
 
     public void insert(int value) {
-        if (value > 0) {
-            BinomialHeapNode temp = new BinomialHeapNode(value);
-            if (nodes == null) {
-                nodes = temp;
-            } else {
-                unionNodes(temp);
-            }
+        BinomialHeapNode temp = new BinomialHeapNode(value);
+        if (nodes == null) {
+            nodes = temp;
+        } else {
+            unionNodes(temp);
         }
     }
 
@@ -120,6 +118,8 @@ public class BinomialHeap {
         if ((nodes != null) && (nodes.findANodeWithKey(value) != null)) {
             decreaseKeyValue(value, findMinimum() - 1);
             extractMin();
+        } else {
+            throw new IllegalArgumentException("Node with key " + value + " not found.");
         }
     }
 
