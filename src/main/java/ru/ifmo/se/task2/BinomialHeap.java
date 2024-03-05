@@ -49,12 +49,12 @@ public class BinomialHeap {
                 temp1 = tmp.sibling;
             } else {
                 if (temp1.degree < temp2.degree) {
-                    if ((temp1.sibling == null) || (temp1.sibling.degree > temp2.degree)) {
+                    if (temp1.sibling == null) {
                         BinomialHeapNode tmp = temp2;
                         temp2 = temp2.sibling;
                         tmp.sibling = temp1.sibling;
                         temp1.sibling = tmp;
-                        temp1 = tmp.sibling;
+                        temp1 = null;
                     } else {
                         temp1 = temp1.sibling;
                     }
@@ -63,9 +63,7 @@ public class BinomialHeap {
                     temp1 = temp2;
                     temp2 = temp2.sibling;
                     temp1.sibling = tmp;
-                    if (tmp == nodes) {
-                        nodes = temp1;
-                    }
+                    nodes = temp1;
                 }
             }
         }
@@ -82,8 +80,7 @@ public class BinomialHeap {
         mergeNode(binHeap);
         BinomialHeapNode prevTemp = null, temp = nodes, nextTemp = nodes.sibling;
         while (nextTemp != null) {
-            if ((temp.degree != nextTemp.degree) ||
-                    ((nextTemp.sibling != null) && (nextTemp.sibling.degree == temp.degree))) {
+            if (temp.degree != nextTemp.degree) {
                 prevTemp = temp;
                 temp = nextTemp;
             } else {
@@ -170,12 +167,10 @@ public class BinomialHeap {
             temp = temp.sibling;
         }
 
-        if ((nodes != null) || (fakeNode != null)) {
-            if (nodes == null) {
-                nodes = fakeNode.reverse(null);
-            } else if (fakeNode != null) {
-                unionNodes(fakeNode.reverse(null));
-            }
+        if (nodes == null) {
+            nodes = fakeNode.reverse(null);
+        } else if (fakeNode != null) {
+            unionNodes(fakeNode.reverse(null));
         }
         return minNode.key;
     }
