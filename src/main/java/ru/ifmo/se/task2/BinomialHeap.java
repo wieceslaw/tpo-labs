@@ -80,7 +80,7 @@ public class BinomialHeap {
         mergeNode(binHeap);
         BinomialHeapNode prevTemp = null, temp = nodes, nextTemp = nodes.sibling;
         while (nextTemp != null) {
-            if (temp.degree != nextTemp.degree) {
+            if ((temp.degree != nextTemp.degree)) {
                 prevTemp = temp;
                 temp = nextTemp;
             } else {
@@ -167,11 +167,13 @@ public class BinomialHeap {
             temp = temp.sibling;
         }
 
-        if (nodes == null) {
-            nodes = fakeNode.reverse(null);
-        } else if (fakeNode != null) {
-            unionNodes(fakeNode.reverse(null));
-        }
+//        if ((nodes != null) || (fakeNode != null)) {
+            if (nodes == null) {
+                nodes = fakeNode.reverse(null);
+            } else if (fakeNode != null) {
+                unionNodes(fakeNode.reverse(null));
+            }
+//        }
         return minNode.key;
     }
 }

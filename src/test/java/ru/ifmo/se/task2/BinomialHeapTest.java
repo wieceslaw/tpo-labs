@@ -225,4 +225,54 @@ class BinomialHeapTest {
         binomialHeap.insert(4);
         assertEquals(binomialHeap.extractMin(), 3);
     }
+
+    @Test
+    public void testDecreaseKeyValueSingleNode() {
+        BinomialHeap heap = new BinomialHeap();
+        heap.insert(5);
+
+        // Уменьшаем значение узла
+        assertTrue(heap.decreaseKeyValue(5, 3));
+
+        // Проверяем, что значение узла уменьшилось
+        assertEquals(3, heap.findMinimum());
+    }
+
+    @Test
+    public void testDecreaseKeyValueMultipleNodes() {
+        BinomialHeap heap = new BinomialHeap();
+        heap.insert(5);
+        heap.insert(8);
+        heap.insert(10);
+
+        // Уменьшаем значение узла
+        assertTrue(heap.decreaseKeyValue(8, 6));
+
+        // Проверяем, что значение узла уменьшилось
+        assertEquals(5, heap.findMinimum());
+    }
+
+    @Test
+    public void testDecreaseKeyValueNonexistentNode() {
+        BinomialHeap heap = new BinomialHeap();
+        heap.insert(5);
+        heap.insert(8);
+
+        // Пытаемся уменьшить значение несуществующего узла
+        assertFalse(heap.decreaseKeyValue(10, 6));
+
+        // Проверяем, что куча осталась неизменной
+        assertEquals(5, heap.findMinimum());
+    }
+
+    @Test
+    public void testDecreaseKeyValueEmptyHeap() {
+        BinomialHeap heap = new BinomialHeap();
+
+        // Пытаемся уменьшить значение в пустой куче
+        assertFalse(heap.decreaseKeyValue(5, 3));
+
+        // Проверяем, что куча осталась пустой
+        assertTrue(heap.isEmpty());
+    }
 }
