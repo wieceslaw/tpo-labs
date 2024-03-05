@@ -167,13 +167,11 @@ public class BinomialHeap {
             temp = temp.sibling;
         }
 
-//        if ((nodes != null) || (fakeNode != null)) {
             if (nodes == null) {
                 nodes = fakeNode.reverse(null);
             } else if (fakeNode != null) {
                 unionNodes(fakeNode.reverse(null));
             }
-//        }
         return minNode.key;
     }
 }

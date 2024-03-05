@@ -178,7 +178,7 @@ class BinomialHeapTest {
     }
 
     @Test
-    void test1() {
+    void mergeSingleAndMultipleNodesHeap() {
         BinomialHeap binHeap1 = new BinomialHeap();
         binHeap1.insert(5);
 
@@ -192,7 +192,7 @@ class BinomialHeapTest {
     }
 
     @Test
-    void test2() {
+    void mergeHeapWithDescendingOrder() {
         BinomialHeap binHeap1 = new BinomialHeap();
         binHeap1.insert(5);
         binHeap1.insert(2);
