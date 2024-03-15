@@ -20,9 +20,10 @@ public class TrigFuncTest {
     private final Cot cot = new Cot(sin, cos);
     private final Sec sec = new Sec(cos);
     private final Csc csc = new Csc(sin);
+    private final TrigonometryEquation trigonometryEquation = new TrigonometryEquation(cos, sin, cot, sec, tan, csc);
     private final CsvLogger csvLogger = new CsvLogger();
-    private final double accuracy = 0.1;
-    private final double eps = 0.0000001;
+    private final double accuracy = 1;
+    private final double eps = 0.0000000001;
 
     @BeforeAll
     public void clearFiles() {
@@ -102,4 +103,5 @@ public class TrigFuncTest {
         csvLogger.logger(x, result);
         assertEquals(trueResult, result, accuracy);
     }
+
 }

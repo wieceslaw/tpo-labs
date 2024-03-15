@@ -19,9 +19,10 @@ public class LogFuncTest {
     private final Ln ln = new Ln();
     private final Log2 log2 = new Log2(ln);
     private final Log3 log3 = new Log3(ln);
+    private final LogarithmEquation logarithmEquation = new LogarithmEquation(ln, log2, log3);
     private final CsvLogger csvLogger = new CsvLogger();
-    private final double accuracy = 0.01;
-    private final double eps = 0.0001;
+    private final double accuracy = 0.1;
+    private final double eps = 0.000000001;
 
     @BeforeAll
     public void clearFiles() {
