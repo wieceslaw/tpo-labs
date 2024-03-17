@@ -1,9 +1,11 @@
 package ru.ifmo.se.utils;
 
 import lombok.Data;
+import lombok.Generated;
 
 import java.io.*;
 
+@Generated
 @Data
 public class CsvLogger {
     private String filePath = "";

@@ -29,12 +29,12 @@ class TrigonometryEquationTest {
 
     @BeforeAll
     public static void setup() {
-        fillMock(sin, "src/test/resources/integration/sinData.csv");
-        fillMock(cos, "src/test/resources/integration/cosData.csv");
-        fillMock(tan, "src/test/resources/integration/tanData.csv");
-        fillMock(cot, "src/test/resources/integration/cotData.csv");
-        fillMock(sec, "src/test/resources/integration/secData.csv");
-        fillMock(csc, "src/test/resources/integration/cscData.csv");
+        fillMock(sin, "src/test/resources/unit/sinData.csv");
+        fillMock(cos, "src/test/resources/unit/cosData.csv");
+        fillMock(tan, "src/test/resources/unit/tanData.csv");
+        fillMock(cot, "src/test/resources/unit/cotData.csv");
+        fillMock(sec, "src/test/resources/unit/secData.csv");
+        fillMock(csc, "src/test/resources/unit/cscData.csv");
 
     }
 
@@ -52,7 +52,7 @@ class TrigonometryEquationTest {
 
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/integration/trigFuncData.csv")
+    @CsvFileSource(resources = "/unit/trigFuncData.csv")
     @DisplayName("trigonometric function test with full mocks")
     void trigFuncTest(Double input, Double trueResult) {
         TrigonometryEquation trigonometricCalculator = new TrigonometryEquation(cos, sin, cot, sec, tan, csc);
