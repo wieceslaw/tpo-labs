@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 class SystemFunctionTest {
     private static final double accuracy = 0.1;
-    private static final double eps = 0.000000000001;
+    private static final double eps = 0.000000000000000000000001;
     private static final CsvLogger csvLogger = new CsvLogger();
     public static TrigonometryEquation trigCalculator = mock(TrigonometryEquation.class);
     public static LogarithmEquation logCalculator = mock(LogarithmEquation.class);
