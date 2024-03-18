@@ -4,6 +4,7 @@ import com.opencsv.CSVReader;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import ru.ifmo.se.log.Ln;
@@ -77,7 +78,7 @@ class SystemFunctionTest {
 
     @ParameterizedTest
     @CsvFileSource(resources = "/calcData.csv")
-    @DisplayName("allMock")
+    @DisplayName("all test without mock")
     void allTest(Double x, Double trueResult) {
         SystemFunction calculator = new SystemFunction(new LogarithmEquation(ln, log2, log3), new TrigonometryEquation(cos, sin, cot, sec, tan, csc));
         double result = calculator.evaluate(x, eps);

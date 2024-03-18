@@ -21,7 +21,6 @@ public class Cos extends TrigFunction {
         }
         double resultSin = sin.evaluate(x, eps);
         double resultCos = sqrt(1 - pow(resultSin, 2));
-
         if (x < -PI / 2 && x > -3 * PI / 2) {
             resultCos *= -1;
         }

@@ -21,9 +21,9 @@ public class Tan extends TrigFunction {
     @Override
     public Double evaluate(Double x, Double eps) {
         x = validateInput(x);
-
         double resultSin = sin.evaluate(x,eps);
         double resultCos = cos.evaluate(x,eps);
+
 
         return resultSin / resultCos;
     }

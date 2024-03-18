@@ -5,10 +5,8 @@ import static java.lang.Double.NaN;
 public class Ln extends LogFunction {
     @Override
     public Double evaluate(Double x, Double eps) {
-
         x = validateInput(x);
         if (x.equals(NaN)) return NaN;
-
         double constant = ((x - 1) * (x - 1)) / ((x + 1) * (x + 1));
 
         double sum = 0;

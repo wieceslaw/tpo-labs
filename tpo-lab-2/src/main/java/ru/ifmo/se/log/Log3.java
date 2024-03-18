@@ -9,7 +9,6 @@ public class Log3 extends LogFunction{
     @Override
     public Double evaluate(Double x, Double eps) {
         x = validateInput(x);
-
         return ln.evaluate(x,eps)/ 1.09861228867;
     }
 }
