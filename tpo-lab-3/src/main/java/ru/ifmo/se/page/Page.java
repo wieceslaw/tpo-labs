@@ -1,33 +1,47 @@
 package ru.ifmo.se.page;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
 import java.time.Duration;
+import java.util.Optional;
 
 public class Page {
-    protected WebDriver driver;
+    private final WebDriver driver;
 
     public Page(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
-//    protected final void driverGet(PageUrl pageUrl) {
-//        driver.get(pageUrl.getUrl());
-//    }
+    protected final WebDriver getDriver() {
+        return driver;
+    }
 
-    public final String driverGetUrl() {
+    protected final void goToUrl(String url) {
+        driver.get(url);
+    }
+
+    protected final String currentUrl() {
         return driver.getCurrentUrl();
     }
 
-    public final Duration getWaitTimeout() {
+    protected final Duration getWaitTimeout() {
         return driver.manage().timeouts().getImplicitWaitTimeout();
     }
 
-    public final void refreshPage() {
+    protected final void refreshPage() {
         driver.get(driver.getCurrentUrl());
     }
 
-    public final WebDriver getDriver(){
-        return driver;
+    protected final Optional<WebElement> findOptionalElement(By by) {
+        try {
+            return Optional.of(driver.findElement(by));
+        } catch (NoSuchElementException e) {
+            return Optional.empty();
+        }
     }
 }

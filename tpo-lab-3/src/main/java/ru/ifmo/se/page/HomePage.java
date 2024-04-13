@@ -10,13 +10,19 @@ public class HomePage extends Page {
     @FindBy(how = How.XPATH, using = "//div[@data-content=\"avia\"]")
     private WebElement webElement;
 
+    @FindBy(xpath = "//div[@data-ti=\"login_link\"]")
+    private WebElement loginButton;
+
     public HomePage(WebDriver driver) {
         super(driver);
-        PageFactory.initElements(driver, this);
     }
 
     public String clickHome() {
         webElement.click();
         return webElement.getText();
+    }
+
+    public void openLoginPage() {
+        loginButton.click();
     }
 }
