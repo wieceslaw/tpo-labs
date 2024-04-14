@@ -13,7 +13,7 @@ class LoginPageTest extends PageTestBase {
     static String PASSWORD = "testtuturu2024";
 
     @TestWithAllDrivers
-    void testCorrectCredentials(WebDriver driver) {
+        void testCorrectCredentials(WebDriver driver) {
         LoggedInHomePage loggedInHomePage = new LoggedInHomePage(driver, loginPage, EMAIL, PASSWORD);
 
         assertEquals(loggedInHomePage.getCurrentUsername(), EMAIL);
